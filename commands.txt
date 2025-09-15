@@ -1,0 +1,64 @@
+extracting embeddings 
+
+a) ResNet50 
+python3 extract_embeddings.py --image_dir ../data/crop-bbs_all_cameras_train/class_all/crops --output_file ../embeddings_files/resnet_embeddings_train.npz
+b) resNet gray
+python3 extract_embeddings.py --image_dir ../data/crop-bbs_all_cameras_train/class_all/gray --output_file ../embeddings_files/resnet_embeddings_train_gray.npz
+
+c) DINOv2
+python3 extract_embeddings_dinov2.py --image_dir../data/crop-bbs_all_cameras_train/class_all/crops  --output_file ../embeddings_files/dino_embeddings_train.npz
+
+d) DINOv2 gray
+    python3 extract_embeddings_dinov2.py --image_dir../data/crop-bbs_all_cameras_train/class_all/gray  --output_file ../embeddings_files/dino_embeddings_train_gray.npz
+
+
+
+Remove fish class
+a)ResNet50
+python3 eliminating_class_from_embeddings.py --input_file ../embeddings_files/resnet_embeddings_train.npz --class_number 0 --output_file ../no_fish_embeddings/resnet_embeddings_train_no_fish.npz
+
+b) resNet gray 
+python3 eliminating_class_from_embeddings.py --input_file ../embeddings_files/resnet_embeddings_train_gray.npz --class_number 0 --output_file ../no_fish_embeddings/resnet_embeddings_train_gray_no_fish.npz
+
+c) DINOv2 
+python3 eliminating_class_from_embeddings.py --input_file ../embeddings_files/dino_embeddings_train.npz --class_number 0 --output_file ../no_fish_embeddings/dino_embeddings_train_no_fish.npz
+
+d) DINOv2 gray
+python3 eliminating_class_from_embeddings.py --input_file ../embeddings_files/dino_embeddings_train_gray.npz --class_number 0 --output_file ../no_fish_embeddings/dino_embeddings_train_gray_no_fish.npz
+
+
+
+
+Normalise embeddings
+
+a) ResNet50 
+
+python3 embeddings_normaliser.py --input_file ../embeddings_files/resnet_embeddings_train.npz --output_file ../normalised_embeddings/resnet_normalised_embeddings_train.npz
+
+b)ResNet50 Gray 
+python3 embeddings_normaliser.py --input_file ../embeddings_files/resnet_embeddings_train_gray.npz --output_file ../normalised_embeddings/resnet_normalised_embeddings_train_gray.npz
+
+c) DINOv2 
+python3 embeddings_normaliser.py --input_file ../embeddings_files/dino_embeddings_train.npz --output_file ../normalised_embeddings/dino_normalised_embeddings_train.npz
+
+d) DINOv2 Gray
+python3 embeddings_normaliser.py --input_file ../embeddings_files/dino_embeddings_train_gray.npz --output_file ../normalised_embeddings/dino_normalised_embeddings_train_gray.npz
+
+
+
+Considerations: 
+if I want to use UMAP, I need to test out different hyperparameters. lowe et al p 13 tells how they did it. however, it appears that they did it in combo with the clustering, which brings to the next problem. 
+AMI score is comparing the clusters, but I am not sure what happens if I have different numbers of clusters betwqeen the original data and the algorithm, so I have to figure it out. 
+
+maybe I can start with the ten/nine clusters, see how well it performs, and then test out from there? 
+
+also, I think I need to go with the nine classes cause fish is weird. 
+or maybe not?
+
+
+next step: 
+run UMAP for one type of embeddings file, just as they are, and with algorithm with 10 classes. see if the performance is different from finding ariel. 
+
+
+
+
